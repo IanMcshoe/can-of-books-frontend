@@ -23,9 +23,9 @@ This app was created with JavaScript and uses a MongoDB database in the back-end
 
 1. Name of feature: Initial setup and connection to back-end DB.
    Estimate of time needed to complete: 1 hour
-   Start time: 14:00
-   Finish time:
-   Actual time needed to complete:
+   Start time: 14:45
+   Finish time: 17:15
+   Actual time needed to complete: 2.5 hours
 
 ## Credit and Collaborations
 
