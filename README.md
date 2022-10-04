@@ -1,7 +1,7 @@
 # Project Name
 
 **Author**: Ian Forrester, Chris Fanucchi
-**Version**: 1.0.0
+**Version**: 1.2.0
 
 ## Overview
 
@@ -25,6 +25,12 @@ This app was created with JavaScript and uses a MongoDB database in the back-end
    Estimate of time needed to complete: 1 hour
    Start time: 14:45
    Finish time: 17:15
+   Actual time needed to complete: 2.5 hours
+
+2. Name of feature: Add Post and Delete functionality
+   Estimate of time needed to complete: 2 hour
+   Start time: 13:30
+   Finish time: 16:00
    Actual time needed to complete: 2.5 hours
 
 ## Credit and Collaborations
