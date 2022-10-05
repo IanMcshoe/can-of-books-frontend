@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Book from './Book';
 import AddBook from './AddBook';
+import UpdateBook from './updateBook';
 import Carousel from 'react-bootstrap/Carousel';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
@@ -11,7 +12,9 @@ class BestBooks extends React.Component {
     super(props);
     this.state = {
       showModal: false,
+      showUpdateModal: false,
       books: [],
+      bookToUpdate: [],
     };
   }
 
@@ -32,6 +35,10 @@ class BestBooks extends React.Component {
     this.setState({ showModal: show });
   };
 
+  setShowUpdateModal = show => {
+    this.setState({ showUpdateModal: show });
+  };
+
   handleCreate = async bookInfo => {
     console.log('bookInfo:', bookInfo);
     try {
@@ -44,6 +51,34 @@ class BestBooks extends React.Component {
         books: [...this.state.books, createdBook],
       });
       this.setState({ showModal: false });
+    } catch (error) {
+      console.log('Error: ', error.response);
+      alert(`Error: ${error.code} - ${error.message}`);
+    }
+  };
+
+  handleUpdate = bookToUpdate => {
+    this.setState({ bookToUpdate: bookToUpdate });
+    this.setShowUpdateModal(true);
+    setTimeout(() => {
+      console.log(this.state.bookToUpdate);
+    }, 500);
+  };
+
+  updateBooks = async bookToUpdate => {
+    console.log('bookUpdateInfo:', bookToUpdate);
+    try {
+      const res = await axios.put(
+        `${process.env.REACT_APP_SERVER}/books/${bookToUpdate._id}`,
+        bookToUpdate
+      );
+      const updatedBooks = this.state.books.map(existingBook => {
+        return existingBook._id === bookToUpdate._id ? res.data : existingBook;
+      });
+      this.setState({
+        books: updatedBooks,
+        showUpdateModal: false,
+      });
     } catch (error) {
       console.log('Error: ', error.response);
       alert(`Error: ${error.code} - ${error.message}`);
@@ -85,7 +120,11 @@ class BestBooks extends React.Component {
               {this.state.books.map((book, i) => {
                 return (
                   <Carousel.Item key={i} className="mb-5">
-                    <Book book={book} handleDelete={this.handleDelete} />
+                    <Book
+                      book={book}
+                      handleDelete={this.handleDelete}
+                      handleUpdate={this.handleUpdate}
+                    />
                   </Carousel.Item>
                 );
               })}
@@ -104,6 +143,12 @@ class BestBooks extends React.Component {
             setShowModal={this.setShowModal}
             showModal={this.state.showModal}
             handleCreate={this.handleCreate}
+          />
+          <UpdateBook
+            setShowUpdateModal={this.setShowUpdateModal}
+            showUpdateModal={this.state.showUpdateModal}
+            bookToUpdate={this.state.bookToUpdate}
+            updateBooks={this.updateBooks}
           />
         </Container>
       </>

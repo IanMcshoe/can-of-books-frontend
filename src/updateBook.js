@@ -5,13 +5,16 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
 
-class AddBook extends React.Component {
+class UpdateBook extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
-    this.props.handleCreate({
-      title: e.target.title.value,
-      description: e.target.description.value,
-      status: e.target.status.checked,
+    this.props.updateBooks({
+      title: e.target.title.value || this.props.bookToUpdate.title,
+      description:
+        e.target.description.value || this.props.bookToUpdate.description,
+      status: e.target.status.checked || this.props.bookToUpdate.status,
+      _id: this.props.bookToUpdate._id,
+      __v: this.props.bookToUpdate.__v,
     });
     e.target.reset();
   };
@@ -20,32 +23,39 @@ class AddBook extends React.Component {
     return (
       <>
         <Modal
-          show={this.props.showModal}
-          onHide={v => this.props.setShowModal(false)}
+          show={this.props.showUpdateModal}
+          onHide={v => this.props.setShowUpdateModal(false)}
         >
           <Modal.Header closeButton>
-            <Modal.Title>Add Book</Modal.Title>
+            <Modal.Title>Edit Book</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Container>
               <Form onSubmit={this.handleSubmit}>
                 <Form.Group className="mb-3" controlId="title">
                   <Form.Label>Book Title</Form.Label>
-                  <Form.Control type="text" placeholder="Enter title of book" />
+                  <Form.Control
+                    type="text"
+                    placeholder={this.props.bookToUpdate.title}
+                  />
                   <Form.Text className="text-muted"></Form.Text>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="description">
                   <Form.Label>Book Description</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter book description"
+                    placeholder={this.props.bookToUpdate.description}
                   />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="status">
-                  <Form.Check type="checkbox" label="Status" />
+                  <Form.Check
+                    type="checkbox"
+                    label="Status"
+                    defaultChecked={this.props.bookToUpdate.status}
+                  />
                 </Form.Group>
                 <Button variant="primary" type="submit">
-                  Add Book
+                  Submit Changes
                 </Button>
               </Form>
             </Container>
@@ -56,4 +66,4 @@ class AddBook extends React.Component {
   }
 }
 
-export default AddBook;
+export default UpdateBook;
